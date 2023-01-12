@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
-
+import { Product, HeroBanner, FooterBanner } from '../components/exports'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      HeroBanner
+      <HeroBanner />
 
       <div className='products-heading'>
         <h2>Best selling products</h2>
@@ -23,7 +23,7 @@ export default function Home() {
         {['Product 1', 'Product 2'].map((product) => (product))}
       </div>
 
-      Footer
+      <FooterBanner />
 
     </>
   )
