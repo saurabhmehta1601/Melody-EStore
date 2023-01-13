@@ -15,8 +15,8 @@ const HeroBanner = ({ heroBanner }: IProps) => {
             </p>
             <h3>{heroBanner.midText}</h3>
             <h1>{heroBanner.largeText1}</h1>
-            {/* @ts-ignore-next-line */}
-            <img src={urlFor(heroBanner.image)} alt="headphones" className='hero-banner-image' />             {/* eslint-disable-line */}
+            {/* @ts-expect-error */}
+            <img src={urlFor(heroBanner.image)} alt="headphones" className='hero-banner-image' />
             <div>
                 <Link href={`/product/${heroBanner.product}`}>
                     <button type="button">{heroBanner.buttonText}</button>
