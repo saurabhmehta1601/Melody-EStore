@@ -1,27 +1,97 @@
-import { IProduct } from "app-types"
-import { urlFor, client } from "lib/client"
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next"
+import React, { useState } from 'react';
+import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
+
+import { client, urlFor } from '../../lib/client';
+import { Product } from 'components/exports';
+import { useStateContext } from '../../context/StateContext';
+import { IProduct } from 'app-types';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { GetStaticPropsContext } from 'next';
 
 interface IProps {
     product: IProduct,
     products: IProduct[]
 }
 
-export default function Product({ product, products }: IProps) {
-    const { image, name, details, price, } = product
-    return (<div>
-        <div className="product-detail-container">
-            <div>
-                <div className="image-container">
-                    {/* @ts-expect-error */}
-                    <img src={urlFor(image && image[0])} alt="" />
+const ProductDetails = ({ product, products }: IProps) => {
+    const { image, name, details, price } = product;
+    const [index, setIndex] = useState(0);
+    const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+
+    const handleBuyNow = () => {
+        onAdd(product, qty);
+
+        setShowCart(true);
+    }
+
+    return (
+        <div>
+            <div className="product-detail-container">
+                <div>
+                    <div className="image-container">
+                        {/* @ts-expect-error */}
+                        <img src={urlFor(image && image[index])} className="product-detail-image" />
+                    </div>
+                    <div className="small-images-container">
+                        {image?.map((item: SanityImageSource, i: number) => (
+                            <img
+                                key={i}
+                                // @ts-expect-error
+                                src={urlFor(item)}
+                                className={i === index ? 'small-image selected-image' : 'small-image'}
+                                onMouseEnter={() => setIndex(i)}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                <div className="product-detail-desc">
+                    <h1>{name}</h1>
+                    <div className="reviews">
+                        <div>
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiFillStar />
+                            <AiOutlineStar />
+                        </div>
+                        <p>
+                            (20)
+                        </p>
+                    </div>
+                    <h4>Details: </h4>
+                    <p>{details}</p>
+                    <p className="price">${price}</p>
+                    <div className="quantity">
+                        <h3>Quantity:</h3>
+                        <p className="quantity-desc">
+                            <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
+                            <span className="num">{qty}</span>
+                            <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
+                        </p>
+                    </div>
+                    <div className="buttons">
+                        <button type="button" className="add-to-cart" onClick={() => onAdd(product, qty)}>Add to Cart</button>
+                        <button type="button" className="buy-now" onClick={handleBuyNow}>Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="maylike-products-wrapper">
+                <h2>You may also like</h2>
+                <div className="marquee">
+                    <div className="maylike-products-container track">
+                        {products.map((item: IProduct) => (
+                            <Product key={item._id} product={item} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>)
+    )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths = async () => {
     const query = `*[_type == "product"] {
     slug {
       current
@@ -43,19 +113,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
 }
 
-
-
-export const getStaticProps: GetStaticProps = async ({ params }: GetStaticPropsContext) => {
+export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     const query = `*[_type == "product" && slug.current == '${params?.slug}'][0]`;
     const productsQuery = '*[_type == "product"]'
 
     const product = await client.fetch(query);
     const products = await client.fetch(productsQuery);
 
-    console.log(product);
-
     return {
         props: { products, product }
     }
 }
 
+export default ProductDetails
