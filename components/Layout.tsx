@@ -1,8 +1,26 @@
+import Head from 'next/head'
 import React from 'react'
+import Footer from './Footer'
+import Navbar from './Navbar'
 
-const Layout = () => {
+interface IProps {
+    children: React.ReactNode
+}
+
+const Layout = ({ children }: IProps) => {
     return (
-        <div>Layout</div>
+        <div className='layout'>
+            <Head>
+                <title> EStore</title>
+            </Head>
+            <header>
+                <Navbar />
+            </header>
+            <main className='main-container'>
+                {children}
+            </main>
+            <footer><Footer /></footer>
+        </div>
     )
 }
 
