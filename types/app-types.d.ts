@@ -1,5 +1,6 @@
 declare module "app-types" {
   export interface IBanner {
+    _id: string;
     image: SanityImageSource;
     buttonText: string;
     product: string;
@@ -13,9 +14,12 @@ declare module "app-types" {
   }
 
   export interface IProduct {
+    _id: string;
     image: SanityImageSource;
     name: string;
-    slug: string;
+    slug: {
+      current: string;
+    };
     price: number;
     details: string;
   }
