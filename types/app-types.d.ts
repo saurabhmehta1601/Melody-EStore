@@ -1,6 +1,6 @@
 declare module "app-types" {
   export interface IBanner {
-    image: string;
+    image: SanityImageSource;
     buttonText: string;
     product: string;
     desc: string;
@@ -13,7 +13,7 @@ declare module "app-types" {
   }
 
   export interface IProduct {
-    image: string;
+    image: SanityImageSource;
     name: string;
     slug: string;
     price: number;
