@@ -1,9 +1,16 @@
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
 import { Product, HeroBanner, FooterBanner } from '../components/exports'
+import { client } from '../lib/client'
+import { IBanner, IProduct } from 'app-types'
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+interface IProps {
+  allBanners: IBanner[],
+  allProducts: IProduct[]
+}
+
+export default function Home({ allProducts, allBanners }: IProps) {
   return (
     <>
       <Head>
@@ -13,18 +20,32 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <HeroBanner />
+      <HeroBanner heroBanner={allBanners[0]} />
 
       <div className='products-heading'>
         <h2>Best selling products</h2>
         <p> Speakers of many variations</p>
       </div>
       <div className='products-container'>
-        {['Product 1', 'Product 2'].map((product) => (product))}
+        {allProducts?.map((product) => (product.name))}
       </div>
 
       <FooterBanner />
 
     </>
   )
+}
+
+export const getServerSideProps = async () => {
+  const queryGetAllProducts = '*[_type == "product"]'
+  const allProducts = await client.fetch(queryGetAllProducts)
+
+  const queryGetAllBanners = '*[_type == "banner"]'
+  const allBanners = await client.fetch(queryGetAllBanners)
+
+  return {
+    props: {
+      allProducts, allBanners
+    }
+  }
 }

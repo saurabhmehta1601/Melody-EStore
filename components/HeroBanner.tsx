@@ -1,24 +1,30 @@
+import { IBanner } from 'app-types'
 import Link from 'next/link'
 import React from 'react'
+import { urlFor } from '../lib/client'
 
-const HeroBanner = () => {
+interface IProps {
+    heroBanner: IBanner
+}
+
+const HeroBanner = ({ heroBanner }: IProps) => {
     return (
         <div className='hero-banner-container'>
+            <p className='beats-solo'>
+                {heroBanner.smallText}
+            </p>
+            <h3>{heroBanner.midText}</h3>
+            <h1>{heroBanner.largeText1}</h1>
+            {/* @ts-ignore-next-line */}
+            <img src={urlFor(heroBanner.image)} alt="headphones" className='hero-banner-image' />             {/* eslint-disable-line */}
             <div>
-                <p className='beats-solo'>
-                    SMALL TEXT
-                </p>
-                <h3>MID TEXT</h3>
-                <img src="" alt="headphones" className='hero-banner-image' />
+                <Link href={`/product/${heroBanner.product}`}>
+                    <button type="button">{heroBanner.buttonText}</button>
+                </Link>
                 <div>
-                    <Link href="/product/ID">
-                        <button type="button">BUTTON TEXT</button>
-                    </Link>
-                    <div>
-                        <div className="desc">
-                            <h5>DESCRIPTION</h5>
-                            <p>DESCRIPTION</p>
-                        </div>
+                    <div className="desc">
+                        <h5>Description</h5>
+                        <p>{heroBanner.desc}</p>
                     </div>
                 </div>
             </div>
