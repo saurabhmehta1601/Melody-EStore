@@ -1,24 +1,19 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import toast from 'react-hot-toast';
 
-import { useStateContext } from '../context/StateContext';
 import { urlFor } from '../lib/client';
 import getStripe from '../lib/getStripe';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { reduceCartItemQuantity, increaseCartItemQuantity, getTotalItems, getTotalPrice, removeCartItem } from 'redux/features/cartSlice';
-import produce from 'immer';
+import { reduceCartItemQuantity, increaseCartItemQuantity, getTotalItems, getTotalPrice, removeCartItem, toggleCartDisplay } from 'redux/features/cartSlice';
 
 const Cart = () => {
-    const cartRef = useRef();
     const dispatch = useAppDispatch()
     const cartItems = useAppSelector(state => state.cart.items)
     const totalItems = useAppSelector(getTotalItems)
     const totalPrice = useAppSelector(getTotalPrice)
-
-    const { setShowCart, toggleCartItemQuanitity, } = useStateContext();
 
     const handleCheckout = async () => {
         const stripe = await getStripe();
@@ -31,7 +26,7 @@ const Cart = () => {
             body: JSON.stringify(cartItems),
         });
 
-        if (response.statusCode === 500) return;
+        if (response.status === 500) return;
 
         const data = await response.json();
 
@@ -41,12 +36,12 @@ const Cart = () => {
     }
 
     return (
-        <div className="cart-wrapper" ref={cartRef}>
+        <div className="cart-wrapper" >
             <div className="cart-container">
                 <button
                     type="button"
                     className="cart-heading"
-                    onClick={() => setShowCart(false)}>
+                    onClick={() => dispatch(toggleCartDisplay())}>
                     <AiOutlineLeft />
                     <span className="heading">Your Cart</span>
                     <span className="cart-num-items">({totalItems} items)</span>
@@ -60,7 +55,7 @@ const Cart = () => {
                             <Link href="/">
                                 <button
                                     type="button"
-                                    onClick={() => setShowCart(false)}
+                                    onClick={() => dispatch(toggleCartDisplay())}
                                     className="btn"
                                 >
                                     Continue Shopping

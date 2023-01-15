@@ -17,18 +17,21 @@ const FooterBanner = ({ footerBanner }: IProps) => {
                     <h3>{footerBanner.largeText2}</h3>
                     <p>{footerBanner.saleTime}</p>
                 </div>
-                <div className="right">
+                <div className="right" >
                     <p>{footerBanner.smallText}</p>
                     <h3>{footerBanner.midText}</h3>
                     <p>{footerBanner.desc}</p>
-                    <Link href={`/product/${footerBanner.product}`}>
-                        <button type="button">{footerBanner.buttonText}</button>
-                    </Link>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Link href={`/product/${footerBanner.product}`}>
+                            <button type="button" style={{ position: 'relative', zIndex: 11 }}>{footerBanner.buttonText}</button>
+                        </Link>
+
+                    </div>
                 </div>
                 {/* @ts-expect-error */}
                 <img src={urlFor(footerBanner.image)} alt="" className="footer-banner-image" />
             </div>
-        </div>
+        </div >
     )
 }
 

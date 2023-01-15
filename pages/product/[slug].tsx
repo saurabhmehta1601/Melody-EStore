@@ -3,10 +3,12 @@ import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-
 
 import { client, urlFor } from '../../lib/client';
 import { Product } from 'components/exports';
-import { useStateContext } from '../../context/StateContext';
 import { IProduct } from 'app-types';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { GetStaticPropsContext } from 'next';
+import { useAppDispatch } from 'hooks/redux';
+import { increaseCartItemQuantity, toggleCartDisplay } from 'redux/features/cartSlice';
+import { toast } from 'react-hot-toast';
 
 interface IProps {
     product: IProduct,
@@ -14,15 +16,17 @@ interface IProps {
 }
 
 const ProductDetails = ({ product, products }: IProps) => {
+    const dispatch = useAppDispatch()
     const { image, name, details, price } = product;
     const [index, setIndex] = useState(0);
-    const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+    const [selectedQuantity, setSelectedQuantity] = useState(1)
 
-    const handleBuyNow = () => {
-        onAdd(product, qty);
-
-        setShowCart(true);
+    const handleAddToCart = () => {
+        dispatch(increaseCartItemQuantity({ quantity: selectedQuantity, product: product }))
+        toast.success(`${selectedQuantity} ${product.name} items added`)
+        dispatch(toggleCartDisplay())
     }
+
 
     return (
         <div>
@@ -65,14 +69,39 @@ const ProductDetails = ({ product, products }: IProps) => {
                     <div className="quantity">
                         <h3>Quantity:</h3>
                         <p className="quantity-desc">
-                            <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
-                            <span className="num">{qty}</span>
-                            <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
+                            <span
+                                className="minus"
+                                onClick={
+                                    () => setSelectedQuantity(prev => prev > 1 ? prev - 1 : prev)
+                                }>
+                                <AiOutlineMinus />
+                            </span>
+                            <span className="num">{selectedQuantity}</span>
+                            <span
+                                className="plus"
+                                onClick={
+                                    () => setSelectedQuantity(prev => prev + 1)
+                                }
+                            >
+                                <AiOutlinePlus />
+                            </span>
                         </p>
                     </div>
                     <div className="buttons">
-                        <button type="button" className="add-to-cart" onClick={() => onAdd(product, qty)}>Add to Cart</button>
-                        <button type="button" className="buy-now" onClick={handleBuyNow}>Buy Now</button>
+                        <button
+                            type="button"
+                            className="add-to-cart"
+                            onClick={handleAddToCart}
+                        >
+                            Add to Cart
+                        </button>
+                        <button
+                            type="button"
+                            className="buy-now"
+                            onClick={handleAddToCart}
+                        >
+                            Buy Now
+                        </button>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import { IProduct } from "app-types";
 
 // Define a type for the slice state
 interface CartState {
+  shouldShow: boolean;
   items: {
     quantity: number;
     product: IProduct;
@@ -13,6 +14,7 @@ interface CartState {
 
 // Define the initial state using that type
 const initialState: CartState = {
+  shouldShow: false,
   items: [],
 };
 
@@ -21,6 +23,9 @@ export const cartSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    toggleCartDisplay: (state) => {
+      state.shouldShow = !state.shouldShow;
+    },
     increaseCartItemQuantity: (
       state,
       { payload }: PayloadAction<{ product: IProduct; quantity: number }>
@@ -69,6 +74,7 @@ export const {
   increaseCartItemQuantity,
   reduceCartItemQuantity,
   removeCartItem,
+  toggleCartDisplay,
 } = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
