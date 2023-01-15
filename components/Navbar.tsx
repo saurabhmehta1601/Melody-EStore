@@ -4,9 +4,12 @@ import { AiOutlineShopping } from 'react-icons/ai'
 
 import Cart from './Cart';
 import { useStateContext } from '../context/StateContext';
+import { useAppSelector } from 'hooks/redux';
+import { getTotalItems } from 'redux/features/cartSlice';
 
 const Navbar = () => {
-  const { showCart, setShowCart, qty } = useStateContext();
+  const totalItems = useAppSelector(getTotalItems)
+  const { showCart, setShowCart } = useStateContext();
 
   return (
     <div className="navbar-container">
@@ -16,7 +19,7 @@ const Navbar = () => {
 
       <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>
         <AiOutlineShopping />
-        <span className="cart-item-qty">{qty}</span>
+        <span className="cart-item-qty">{totalItems}</span>
       </button>
 
       {showCart && <Cart />}
