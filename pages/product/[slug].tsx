@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
-import { client, urlFor } from '../../lib/client';
+import { client, urlFor } from '../../lib/sanityClient';
 import { Product } from 'components/exports';
 import { IProduct } from 'app-types';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
