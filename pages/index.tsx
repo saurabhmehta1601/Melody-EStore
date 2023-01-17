@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
 import { Product, HeroBanner, FooterBanner } from '../components/exports'
-import { client } from '../lib/sanityClient'
+import { client } from '../lib/sanity'
 import { IBanner, IProduct } from 'app-types'
 const inter = Inter({ subsets: ['latin'] })
 

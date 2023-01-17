@@ -2,8 +2,6 @@ import { IProduct } from "app-types";
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
-console.log({ apiKey: process.env.STRIPE_SECRET_KEY });
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2022-11-15",
   typescript: true,

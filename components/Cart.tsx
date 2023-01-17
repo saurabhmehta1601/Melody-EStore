@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import toast from 'react-hot-toast';
-
-import { urlFor } from '../lib/sanityClient';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { reduceCartItemQuantity, increaseCartItemQuantity, getTotalItems, getTotalPrice, removeCartItem, toggleCartDisplay } from 'redux/features/cartSlice';
 import { useStripe } from '@stripe/react-stripe-js';
+import SanityImage from './SanityImage';
 
 const Cart = () => {
     const stripe = useStripe();
@@ -18,7 +17,6 @@ const Cart = () => {
     const totalPrice = useAppSelector(getTotalPrice)
 
     const handleCheckout = async () => {
-        console.log({ stripe })
         if (!stripe) return
 
         const response = await fetch('/api/redirect-to-checkout', {
@@ -72,10 +70,11 @@ const Cart = () => {
                                 {
                                     cartItems.map((item) => (
                                         <div className="product" key={item.product._id}>
-                                            <img
+                                            <SanityImage
                                                 alt={item.product._id}
-                                                // @ts-expect-error
-                                                src={urlFor(item.product?.image[0])} className="cart-product-image"
+                                                image={item.product?.image[0]}
+                                                className="cart-product-image"
+
                                             />
                                             <div className="item-desc">
                                                 <div className="flex top">

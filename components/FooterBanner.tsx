@@ -1,7 +1,7 @@
 import { IBanner } from 'app-types'
 import React from 'react'
 import Link from 'next/link'
-import { urlFor } from '../lib/sanityClient'
+import SanityImage from './SanityImage'
 
 interface IProps {
     footerBanner: IBanner
@@ -28,8 +28,11 @@ const FooterBanner = ({ footerBanner }: IProps) => {
 
                     </div>
                 </div>
-                {/* @ts-expect-error */}
-                <img src={urlFor(footerBanner.image)} alt="product" className="footer-banner-image" />
+                <SanityImage
+                    image={footerBanner.image}
+                    alt="headphones"
+                    className="footer-banner-image"
+                />
             </div>
         </div >
     )

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
-import { client, urlFor } from '../../lib/sanityClient';
+import { client } from 'lib/sanity';
 import { Product } from 'components/exports';
 import { IProduct } from 'app-types';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import { GetStaticPropsContext } from 'next';
 import { useAppDispatch } from 'hooks/redux';
 import { increaseCartItemQuantity, toggleCartDisplay } from 'redux/features/cartSlice';
 import { toast } from 'react-hot-toast';
+import SanityImage from 'components/SanityImage';
 
 interface IProps {
     product: IProduct,
@@ -33,20 +33,18 @@ const ProductDetails = ({ product, products }: IProps) => {
             <div className="product-detail-container">
                 <div>
                     <div className="image-container">
-                        <img
-                            // @ts-expect-error
-                            src={urlFor(image && image[index])}
-                            alt={product._id}
+                        <SanityImage
+                            image={image && image[index]}
+                            alt={product.name}
                             className="product-detail-image"
                         />
                     </div>
                     <div className="small-images-container">
-                        {image?.map((item: SanityImageSource, i: number) => (
-                            <img
-                                alt={product._id}
+                        {image?.map((image: any, i: number) => (
+                            <SanityImage
+                                alt={product.name}
                                 key={i}
-                                // @ts-expect-error
-                                src={urlFor(item)}
+                                image={image}
                                 className={i === index ? 'small-image selected-image' : 'small-image'}
                                 onMouseEnter={() => setIndex(i)}
                             />
