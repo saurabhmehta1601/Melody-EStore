@@ -4,19 +4,22 @@ import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 
 import { TiDeleteOutline } from 'react-icons/ti';
 import toast from 'react-hot-toast';
 
-import { urlFor } from '../lib/client';
-import getStripe from '../lib/getStripe';
+import { urlFor } from '../lib/sanityClient';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { reduceCartItemQuantity, increaseCartItemQuantity, getTotalItems, getTotalPrice, removeCartItem, toggleCartDisplay } from 'redux/features/cartSlice';
+import { useStripe } from '@stripe/react-stripe-js';
 
 const Cart = () => {
+    const stripe = useStripe();
+
     const dispatch = useAppDispatch()
     const cartItems = useAppSelector(state => state.cart.items)
     const totalItems = useAppSelector(getTotalItems)
     const totalPrice = useAppSelector(getTotalPrice)
 
     const handleCheckout = async () => {
-        const stripe = await getStripe();
+        console.log({ stripe })
+        if (!stripe) return
 
         const response = await fetch('/api/stripe', {
             method: 'POST',
@@ -69,7 +72,6 @@ const Cart = () => {
                                 {
                                     cartItems.map((item) => (
                                         <div className="product" key={item.product._id}>
-                                            {/* @ts-expect-error */}
                                             <img src={urlFor(item.product?.image[0])} className="cart-product-image" />
                                             <div className="item-desc">
                                                 <div className="flex top">

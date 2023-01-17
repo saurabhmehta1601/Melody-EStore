@@ -1,7 +1,7 @@
 import { IBanner } from 'app-types'
 import React from 'react'
 import Link from 'next/link'
-import { urlFor } from '../lib/client'
+import { urlFor } from '../lib/sanityClient'
 
 interface IProps {
     footerBanner: IBanner

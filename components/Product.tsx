@@ -1,7 +1,7 @@
 import { IProduct } from 'app-types'
 import Link from 'next/link'
 import React from 'react'
-import { urlFor } from '../lib/client'
+import { urlFor } from '../lib/sanityClient'
 
 interface IProps {
     product: IProduct
