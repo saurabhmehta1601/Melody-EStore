@@ -72,8 +72,11 @@ const Cart = () => {
                                 {
                                     cartItems.map((item) => (
                                         <div className="product" key={item.product._id}>
-                                            {/* @ts-expect-error-next-line */}
-                                            <img src={urlFor(item.product?.image[0])} className="cart-product-image" />
+                                            <img
+                                                alt={item.product._id}
+                                                // @ts-expect-error
+                                                src={urlFor(item.product?.image[0])} className="cart-product-image"
+                                            />
                                             <div className="item-desc">
                                                 <div className="flex top">
                                                     <h5>{item.product.name}</h5>

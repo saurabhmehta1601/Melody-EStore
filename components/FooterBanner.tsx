@@ -29,7 +29,7 @@ const FooterBanner = ({ footerBanner }: IProps) => {
                     </div>
                 </div>
                 {/* @ts-expect-error */}
-                <img src={urlFor(footerBanner.image)} alt="" className="footer-banner-image" />
+                <img src={urlFor(footerBanner.image)} alt="product" className="footer-banner-image" />
             </div>
         </div >
     )

@@ -33,12 +33,17 @@ const ProductDetails = ({ product, products }: IProps) => {
             <div className="product-detail-container">
                 <div>
                     <div className="image-container">
-                        {/* @ts-expect-error */}
-                        <img src={urlFor(image && image[index])} className="product-detail-image" />
+                        <img
+                            // @ts-expect-error
+                            src={urlFor(image && image[index])}
+                            alt={product._id}
+                            className="product-detail-image"
+                        />
                     </div>
                     <div className="small-images-container">
                         {image?.map((item: SanityImageSource, i: number) => (
                             <img
+                                alt={product._id}
                                 key={i}
                                 // @ts-expect-error
                                 src={urlFor(item)}
