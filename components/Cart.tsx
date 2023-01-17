@@ -21,7 +21,7 @@ const Cart = () => {
         console.log({ stripe })
         if (!stripe) return
 
-        const response = await fetch('/api/stripe', {
+        const response = await fetch('/api/redirect-to-checkout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
