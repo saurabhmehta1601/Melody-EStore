@@ -15,6 +15,7 @@ const PaymentSuccess = () => {
                 play
                 loop={false}
                 animationData={animationData}
+                style={{ width: 300, height: 300 }}
             />
             <h5 className={styles.h5}>Thank you for purchasing from our store</h5>
         </div>

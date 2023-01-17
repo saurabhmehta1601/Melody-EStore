@@ -15,6 +15,7 @@ const PaymentCancelled = () => {
                 play
                 loop={false}
                 animationData={animationData}
+                style={{ width: 300, height: 300 }}
             />
             <h5 className={styles.h5}>Please try Again</h5>
         </div>
