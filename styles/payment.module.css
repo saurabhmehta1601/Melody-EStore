@@ -1,0 +1,19 @@
+.container {
+  display: grid;
+  place-items: center;
+  padding: 2em;
+  flex: 1;
+}
+
+.main {
+  flex: 1;
+}
+
+.h3 {
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+.h5 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}

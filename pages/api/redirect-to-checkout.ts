@@ -52,7 +52,7 @@ export default async function handler(
           };
         }),
         success_url: `${req.headers.origin}/payment/success`,
-        cancel_url: `${req.headers.origin}/payment/canceled`,
+        cancel_url: `${req.headers.origin}/payment/cancelled`,
       };
 
       // Create Checkout Sessions from body params.
